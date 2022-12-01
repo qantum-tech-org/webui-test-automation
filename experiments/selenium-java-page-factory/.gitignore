@@ -1,5 +1,6 @@
 # Everything in the .idea directory
 .idea/*
+.idea/workspace.xml
 
 # CMake
 cmake-build-*/
