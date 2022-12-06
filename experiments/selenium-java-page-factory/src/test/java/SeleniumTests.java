@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageObjects.ABtestPage;
 import pageObjects.HomePage;
+import pageObjects.TyposPage;
 
 public class SeleniumTests {
 
@@ -16,21 +17,34 @@ public class SeleniumTests {
 
     HomePage homePage;
     ABtestPage abTestPage;
+    TyposPage typosPage;
 
     @BeforeClass
     public void beforeClass () {
-        System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/home/darkunicorn/Downloads/chromedriver_linux64/chromedriver");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://the-internet.herokuapp.com/");
         homePage = PageFactory.initElements(driver, HomePage.class);
         abTestPage = PageFactory.initElements(driver, ABtestPage.class);
+        typosPage = PageFactory.initElements(driver, TyposPage.class);
     }
 
     @Test
     public void testNavigationToABtestPage () {
         homePage.clickOption("A/B Testing");
-        Assert.assertEquals("A/B Test Control", abTestPage.getTitleText());
+        Assert.assertEquals(abTestPage.getTitleText(),"A/B Test Control");
+    }
+
+    @Test
+    public void testTypoPageText (){
+        homePage.clickOption("Typos");
+        Assert.assertEquals(typosPage.getPageText(), "\n" +
+                "Typos\n" +
+                "\n" +
+                "This example demonstrates a typo being introduced. It does it randomly on each page load.\n" +
+                "\n" +
+                "Sometimes you'll see a typo, other times you won't.\n");
     }
 
     @AfterClass
