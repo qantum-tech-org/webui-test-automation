@@ -1,6 +1,7 @@
 # Everything in the .idea directory
 .idea/*
 
+driver/*
 # CMake
 cmake-build-*/
 
