@@ -1,2 +1,3 @@
-/drivers/chromedriver
+/drivers/*
 /.idea/
+/Qantum.iml
