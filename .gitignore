@@ -1,3 +1,4 @@
-!drivers/*
+!drivers
+drivers/*
 /.idea/
 /Qantum.iml
