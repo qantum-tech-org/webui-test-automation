@@ -1,5 +1,6 @@
 package pageObjects;
 
+import common.Configuration;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -12,7 +13,7 @@ public class LoginPage {
     WebDriver driver;
     @BeforeMethod
     public void starUpBrowser(){
-       System.setProperty("webdriver.chrome.driver","drivers/chromedriver");
+       System.setProperty("webdriver.chrome.driver", Configuration.CHROME_DRIVER_DIR);
         driver = new ChromeDriver();
         driver.get("http://the-internet.herokuapp.com/login");
     }
@@ -33,7 +34,38 @@ public class LoginPage {
         Thread.sleep(3000);
     }
 
-    //To do
+    @Test
+    public void loginInvalid(){
+        driver.findElement(By.name("username")).sendKeys("Nottomsmith");
+        driver.findElement(By.name("password")).sendKeys("SuperNoSecretPassword!");
+        driver.findElement(By.cssSelector("#login > button")).click();
+        String invalidText = driver.findElement(By.id("flash")).getText();
+        SoftAssert loginPageValid = new SoftAssert();
+        loginPageValid.assertEquals(invalidText, "Your username is invalid!", "Invalid username and password validation");
+        //System.out.println(invalidText);
+    }
+
+    @Test
+    public void loginInvalidPassword(){
+        driver.findElement(By.name("username")).sendKeys("tomsmith");
+        driver.findElement(By.name("password")).sendKeys("SuperNoSecretPassword!");
+        driver.findElement(By.cssSelector("#login > button")).click();
+        String invalidText = driver.findElement(By.id("flash")).getText();
+        SoftAssert loginPageValid = new SoftAssert();
+        loginPageValid.assertEquals(invalidText, "Your password is invalid!", "Invalid password validation");
+        //System.out.println(invalidText);
+    }
+
+    @Test
+    public void loginInvalidUser(){
+        driver.findElement(By.name("username")).sendKeys("Nottomsmith");
+        driver.findElement(By.name("password")).sendKeys("SuperSecretPassword!");
+        driver.findElement(By.cssSelector("#login > button")).click();
+        String invalidText = driver.findElement(By.id("flash")).getText();
+        SoftAssert loginPageValid = new SoftAssert();
+        loginPageValid.assertEquals(invalidText, "Your username is invalid!", "Invalid username validation");
+        //System.out.println(invalidText);
+    }
 
     @AfterMethod
     public void closeBrowser(){
